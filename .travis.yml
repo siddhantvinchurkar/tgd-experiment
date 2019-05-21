@@ -9,4 +9,4 @@ install:
  - npm install
  - cd ..
 after_success:
- - firebase deploy --project untamed-fun --token $FIREBASE_TOKEN
+ - firebase deploy --project tgd-experiment --token $FIREBASE_TOKEN
