@@ -1,5 +1,13 @@
 /* This is the main JS file for this web app */
 
+/* Main Function */
+function main(){
+
+	/* Slowly fade the screen in */
+	$("#screen").fadeIn(2000);
+
+}
+
 /* Main thread */
 window.onload = function () {
 
@@ -20,5 +28,7 @@ window.onload = function () {
             .register('sw.js')
             .then(function() { console.log("%cService Worker Registered!", "background:#222222; color:#BADA55;"); });
 	}
+	
+	main();
 
 }

@@ -41,3 +41,8 @@ img{
 	min-height: 128px;
 	max-height: 128px;
 }
+
+#screen{
+	font-size: 6em;
+	display: none;
+}
