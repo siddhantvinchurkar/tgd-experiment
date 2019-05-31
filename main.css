@@ -42,7 +42,87 @@ img{
 	max-height: 128px;
 }
 
-#screen{
+#screen1{
 	font-size: 6em;
 	display: none;
+}
+
+#screen2{
+	font-size: 6em;
+	display: none;
+}
+
+#screen3{
+	font-size: 6em;
+	display: none;
+}
+
+.btn-floating.btn-xlarge {
+	width: 112px;
+	height: 112px;
+	padding: 0;
+	margin-top: 20em;
+}
+
+.btn-floating.btn-xlarge i{
+	line-height: 112px;
+	font-size: 3.2rem;
+}
+
+#mic{
+	display: none;
+}
+
+#sign_in_button{
+	display: none;
+}
+
+#username_profile{
+	display: none;
+}
+
+svg {
+	display: inline;
+	width: 300px;
+	height: 120px;
+	margin: 0 auto;
+}
+
+.text-copy {
+	fill: none;
+	font-size: 1.5em;
+	stroke: white;
+	stroke-dasharray: 6% 29%;
+	stroke-width: 5px;
+	stroke-dashoffset: 0%;
+	animation: stroke-offset 5.5s infinite linear;
+}
+
+.text-copy:nth-child(1){
+	stroke: #4D163D;
+	animation-delay: -1;
+}
+
+.text-copy:nth-child(2){
+	stroke: #840037;
+	animation-delay: -2s;
+}
+
+.text-copy:nth-child(3){
+	stroke: #FFA500;
+	animation-delay: -3s;
+}
+
+.text-copy:nth-child(4){
+	stroke: #B24F30;
+	animation-delay: -4s;
+}
+
+.text-copy:nth-child(5){
+	stroke: #BADA55;
+	animation-delay: -5s;
+}
+
+@keyframes stroke-offset{
+	100% {stroke-dashoffset: -35%;}
 }
