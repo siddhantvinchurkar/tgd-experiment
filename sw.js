@@ -46,6 +46,14 @@ self.__precacheManifest = [
     "revision": "a8a54d0e835798eab5051ee79b4119d7"
   },
   {
+    "url": "fonts/material_icons.woff2",
+    "revision": "570eb83859dc23dd0eec423a49e147fe"
+  },
+  {
+    "url": "fonts/roboto.woff2",
+    "revision": "479970ffb74f2117317f9d24d9e317fe"
+  },
+  {
     "url": "functions/index.js",
     "revision": "10be3e3e7e0ea62663880569677cc5c1"
   },
@@ -75,7 +83,7 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "b2accdc74a216e30c1377a2a7c42a95b"
+    "revision": "9bfc7d534f416f9943b6de3bb014f696"
   },
   {
     "url": "key.json",
@@ -87,7 +95,7 @@ self.__precacheManifest = [
   },
   {
     "url": "main.css",
-    "revision": "594a9554660ba112d8e54e71dbe7d7f2"
+    "revision": "efa75035099c207f1b69213969eafc33"
   },
   {
     "url": "main.js",
