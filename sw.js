@@ -66,12 +66,16 @@ self.__precacheManifest = [
     "revision": "981a2953f5749faa43e687699fb2445a"
   },
   {
+    "url": "images/shore-aerial-sequence.jp2",
+    "revision": "82420cd2a128de0187239321bd9f9eed"
+  },
+  {
     "url": "images/shore-aerial-sequence.jpg",
     "revision": "6979d1551d3d0d4fb760b1cc15871ec7"
   },
   {
     "url": "index.html",
-    "revision": "1bcbd7fbfe7e43c3daae938f31f1b642"
+    "revision": "b2accdc74a216e30c1377a2a7c42a95b"
   },
   {
     "url": "key.json",
@@ -115,11 +119,3 @@ self.__precacheManifest = [
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
-const cacheName = 'my-cache';
-const expirationManager = new workbox.expiration.CacheExpiration(
-  cacheName,
-  {
-    maxAgeSeconds: 24 * 60 * 60 * 7,
-    maxEntries: 256,
-  }
-);
