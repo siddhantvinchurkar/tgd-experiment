@@ -1,6 +1,6 @@
 html{
 	font-family: 'Roboto', sans-serif;
-	font-display: auto;
+	font-display: fallback;
 }
 
 nav{
