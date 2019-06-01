@@ -27,95 +27,118 @@ self.addEventListener('message', (event) => {
 self.__precacheManifest = [
   {
     "url": "CODE_OF_CONDUCT.md",
-    "revision": "c705391b8834a912453248e4d16b2c53"
+    "revision": "c705391b8834a912453248e4d16b2c53",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "CONTRIBUTING.md",
-    "revision": "8c57c1b5376e195b201db907060554d4"
+    "revision": "8c57c1b5376e195b201db907060554d4",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "firebase.json",
-    "revision": "658cbc648f9a12fc61a9df94db85dd3c"
+    "revision": "658cbc648f9a12fc61a9df94db85dd3c",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "firestore.indexes.json",
-    "revision": "6c1369bcee45fa3baebaaf77f2dc3ae3"
+    "revision": "6c1369bcee45fa3baebaaf77f2dc3ae3",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "firestore.rules",
-    "revision": "a8a54d0e835798eab5051ee79b4119d7"
+    "revision": "a8a54d0e835798eab5051ee79b4119d7",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "functions/index.js",
-    "revision": "10be3e3e7e0ea62663880569677cc5c1"
+    "revision": "10be3e3e7e0ea62663880569677cc5c1",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "functions/package-lock.json",
-    "revision": "1a8f1186d425190f9d65d15af0321abb"
+    "revision": "1a8f1186d425190f9d65d15af0321abb",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "functions/package.json",
-    "revision": "adb6e63d8fe496f8625ee2aaba85f427"
+    "revision": "adb6e63d8fe496f8625ee2aaba85f427",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "images/icons/favicon-32.png",
-    "revision": "56c6b2d8ebb410422ec18375917b5c3b"
+    "revision": "56c6b2d8ebb410422ec18375917b5c3b",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "images/icons/favicon-512.png",
-    "revision": "981a2953f5749faa43e687699fb2445a"
+    "revision": "981a2953f5749faa43e687699fb2445a",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "images/shore-aerial-sequence.jp2",
-    "revision": "82420cd2a128de0187239321bd9f9eed"
+    "revision": "82420cd2a128de0187239321bd9f9eed",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "images/shore-aerial-sequence.jpg",
-    "revision": "6979d1551d3d0d4fb760b1cc15871ec7"
+    "revision": "6979d1551d3d0d4fb760b1cc15871ec7",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "index.html",
-    "revision": "b2accdc74a216e30c1377a2a7c42a95b"
+    "revision": "b2accdc74a216e30c1377a2a7c42a95b",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "key.json",
-    "revision": "dca03123446f30f9a6f4fd95ecc9ffdc"
+    "revision": "dca03123446f30f9a6f4fd95ecc9ffdc",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "LICENSE.md",
-    "revision": "36a2bfb767151986e819e88c3fa28b29"
+    "revision": "36a2bfb767151986e819e88c3fa28b29",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "main.css",
-    "revision": "594a9554660ba112d8e54e71dbe7d7f2"
+    "revision": "594a9554660ba112d8e54e71dbe7d7f2",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "main.js",
-    "revision": "83170429698ee84a9ced6a446626fb72"
+    "revision": "83170429698ee84a9ced6a446626fb72",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "manifest.json",
-    "revision": "f739632991be312d6ce321933befa181"
+    "revision": "f739632991be312d6ce321933befa181",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "pull_request_template.md",
-    "revision": "b8ea0623f6403b004189f3ba1fe36c35"
+    "revision": "b8ea0623f6403b004189f3ba1fe36c35",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "README.md",
-    "revision": "2362e220cb7a0c9762039c13bdb71cfa"
+    "revision": "2362e220cb7a0c9762039c13bdb71cfa",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "sounds/background.mp3",
-    "revision": "bc8f0384d342ae915b2bdfce98465c8a"
+    "revision": "bc8f0384d342ae915b2bdfce98465c8a",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "storage.rules",
-    "revision": "307549de80ebee91ac86a65766bd6d25"
+    "revision": "307549de80ebee91ac86a65766bd6d25",
+    "maxAgeSeconds": 604800
   },
   {
     "url": "videos/shore-aerial-sequence.mp4",
-    "revision": "839f9fe23a7001786093ee6812fdf27c"
+    "revision": "839f9fe23a7001786093ee6812fdf27c",
+    "maxAgeSeconds": 604800
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
