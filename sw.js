@@ -131,3 +131,19 @@ workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 workbox.precaching.cleanupOutdatedCaches();
 
 workbox.googleAnalytics.initialize({});
+
+workbox.routing.registerRoute(
+  new RegExp("https://tgde.hyperr.space/(.*)"),
+  new workbox.strategies.CacheFirst({
+    cacheName: 'global-cache',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEntries: 256,
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+      }),
+        new workbox.cacheableResponse.Plugin({
+          statuses: [0, 200],
+        })
+    ]
+  })
+);
