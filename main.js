@@ -197,6 +197,11 @@ function signIn(){
 	
 }
 
+/* Mic Function */
+function mic(){
+	
+}
+
 /* Main Function */
 function main(){
 
@@ -238,6 +243,13 @@ window.onload = function () {
 
 	/* Register a Service Worker */
 	if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+	
+	/* Configure AJAX requests */
+	jQuery.ajaxPrefilter(function(options){
+		if(options.crossDomain && jQuery.support.cors){
+			options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+		}
+	});
 
 	main();
 

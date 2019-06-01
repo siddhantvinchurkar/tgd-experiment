@@ -26,6 +26,14 @@ self.addEventListener('message', (event) => {
  */
 self.__precacheManifest = [
   {
+    "url": "CODE_OF_CONDUCT.md",
+    "revision": "c705391b8834a912453248e4d16b2c53"
+  },
+  {
+    "url": "CONTRIBUTING.md",
+    "revision": "8c57c1b5376e195b201db907060554d4"
+  },
+  {
     "url": "firebase.json",
     "revision": "658cbc648f9a12fc61a9df94db85dd3c"
   },
@@ -58,8 +66,16 @@ self.__precacheManifest = [
     "revision": "981a2953f5749faa43e687699fb2445a"
   },
   {
+    "url": "images/shore-aerial-sequence.jpg",
+    "revision": "6979d1551d3d0d4fb760b1cc15871ec7"
+  },
+  {
     "url": "index.html",
-    "revision": "30b2ac72769fc74b0d46ee0624c4587a"
+    "revision": "1bcbd7fbfe7e43c3daae938f31f1b642"
+  },
+  {
+    "url": "key.json",
+    "revision": "dca03123446f30f9a6f4fd95ecc9ffdc"
   },
   {
     "url": "LICENSE.md",
@@ -67,23 +83,43 @@ self.__precacheManifest = [
   },
   {
     "url": "main.css",
-    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+    "revision": "594a9554660ba112d8e54e71dbe7d7f2"
   },
   {
     "url": "main.js",
-    "revision": "069f1f3d38e49d4de62ffed59f95a2e1"
+    "revision": "83170429698ee84a9ced6a446626fb72"
   },
   {
     "url": "manifest.json",
-    "revision": "f1b373a06be74a75f6815a4cf1278a9f"
+    "revision": "f739632991be312d6ce321933befa181"
+  },
+  {
+    "url": "pull_request_template.md",
+    "revision": "b8ea0623f6403b004189f3ba1fe36c35"
   },
   {
     "url": "README.md",
     "revision": "2362e220cb7a0c9762039c13bdb71cfa"
   },
   {
+    "url": "sounds/background.mp3",
+    "revision": "bc8f0384d342ae915b2bdfce98465c8a"
+  },
+  {
     "url": "storage.rules",
-    "revision": "166a8a900000c71f8e5a5cb4247fa6d4"
+    "revision": "307549de80ebee91ac86a65766bd6d25"
+  },
+  {
+    "url": "videos/shore-aerial-sequence.mp4",
+    "revision": "839f9fe23a7001786093ee6812fdf27c"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+const cacheName = 'my-cache';
+const expirationManager = new workbox.expiration.CacheExpiration(
+  cacheName,
+  {
+    maxAgeSeconds: 24 * 60 * 60 * 7,
+    maxEntries: 256,
+  }
+);
