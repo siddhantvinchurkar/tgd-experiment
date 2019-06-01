@@ -116,6 +116,7 @@ function animateBrief(){
 	$("#screen1").fadeIn(1000);
 	setTimeout(function(){$("#screen2").fadeIn(1000);}, 1000);
 	setTimeout(function(){$("#mic").fadeIn(1000);}, 10000);
+	setTimeout(function(){$(".vt-wrapper").fadeIn(1000);}, 10000);
 	setTimeout(function(){$("#screen3").fadeIn(1000);}, 6000);
 	setTimeout(function(){$("#sign_in_button").fadeIn(1000);}, 10000);
 	setTimeout(function(){$("#screen1").fadeOut(1000);}, 4000);
@@ -210,6 +211,7 @@ function main(){
 	// Set click listenrs
 	setTimeout(function(){
 		document.getElementById('sign_in_button').onclick = function(){signIn();}
+		document.getElementById('mic').onclick = function(){mic();}
 	}, 10000);
 
 }

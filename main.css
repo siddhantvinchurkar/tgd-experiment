@@ -61,7 +61,6 @@ img{
 	width: 112px;
 	height: 112px;
 	padding: 0;
-	margin-top: 20em;
 }
 
 .btn-floating.btn-xlarge i{
@@ -71,6 +70,7 @@ img{
 
 #mic{
 	display: none;
+	margin-top: 2em;
 }
 
 #sign_in_button{
@@ -125,4 +125,57 @@ svg {
 
 @keyframes stroke-offset{
 	100% {stroke-dashoffset: -35%;}
+}
+
+.vt-wrapper {
+	display: none;
+	position: relative;
+	width: 100%;
+	margin: 0 auto;
+	max-width: 1000px;
+}
+
+.vt-wrapper video {
+	width: 100%;
+}
+
+.vt-wrapper svg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.vt-wrapper svg text {
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 900;
+	text-transform: uppercase;
+	font-size: 40px;
+}
+
+.vt-wrapper svg > rect {
+	-webkit-mask: url(#mask);
+	mask: url(#mask);
+}
+
+.vt-wrapper svg rect {
+	fill: #fff;
+}
+
+.vt-wrapper:before, .vt-wrapper:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	width: 10px;
+	height: 100%;
+	background-color: #fff;
+}
+
+.vt-wrapper:before {
+	left: -9px;
+}
+
+.vt-wrapper:after {
+	right: -5px;
 }
