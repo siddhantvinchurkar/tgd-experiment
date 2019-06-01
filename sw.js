@@ -24,23 +24,6 @@ self.addEventListener('message', (event) => {
  * requests for URLs in the manifest.
  * See https://goo.gl/S9QRab
  */
- 
-const cacheName = 'tgd-experiment';
-const expirationManager = new workbox.expiration.CacheExpiration(
-cacheName,
-{
-maxAgeSeconds: 24 * 60 * 60,
-maxEntries: 256,
-}
-);
-
-await openCache.put(
-  request,
-  response
-);
-await expirationManager.updateTimestamp(request.url);
-await expirationManager.expireEntries();
- 
 self.__precacheManifest = [
   {
     "url": "CODE_OF_CONDUCT.md",
@@ -136,3 +119,23 @@ self.__precacheManifest = [
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+
+workbox.precaching.cleanupOutdatedCaches();
+
+workbox.googleAnalytics.initialize({});
+
+workbox.routing.registerRoute(
+  new RegExp("https://tgde.hyperr.space/(.*)"),
+  new workbox.strategies.CacheFirst({
+    cacheName: 'global-cache',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEntries: 256,
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+      }),
+        new workbox.cacheableResponse.Plugin({
+          statuses: [0, 200],
+        })
+    ]
+  })
+);
