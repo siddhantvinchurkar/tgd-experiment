@@ -6,6 +6,9 @@ var signedIn = false;
 var db = '';
 var currentUserDocId = '';
 var returningUser = false;
+var volumeStart = 1.0;
+var volumeEnd = 0.2;
+var low_volume = false;
 var os = [
     { name: 'Windows Phone', value: 'Windows Phone', version: 'OS' },
     { name: 'Windows', value: 'Win', version: 'NT' },
@@ -112,29 +115,31 @@ function animateIntroduction(){
 /* Animate Brief Function */
 function animateBrief(){
 
-	setText('I\'m omnipresent; and right now, most of my knowledge comes from people I interact with.', 'Use the mic button to talk to me.', 'I\'ll store your preferences if you sign in.');
+	setText('I\'m omnipresent; and right now, most of my knowledge comes from the people I interact with.', 'Use the mic button to talk to me.', 'I\'ll store your preferences if you sign in.');
 	$("#screen1").fadeIn(1000);
 	setTimeout(function(){$("#screen2").fadeIn(1000);}, 1000);
-	setTimeout(function(){$("#mic").fadeIn(1000);}, 10000);
-	setTimeout(function(){$(".vt-wrapper").fadeIn(1000);}, 10000);
-	setTimeout(function(){$("#crocket").fadeIn(1000);}, 10000);
-	setTimeout(function(){$('html, body').animate({scrollTop: $("#mic").offset().top}, 4000);}, 12000);
-	setTimeout(function(){$("#crocket").fadeOut(1000);}, 14000);
-	setTimeout(function(){$("#screen3").fadeIn(1000);}, 6000);
-	setTimeout(function(){$("#sign_in_button").fadeIn(1000);}, 10000);
-	setTimeout(function(){$("#screen1").fadeOut(1000);}, 4000);
-	setTimeout(function(){$("#screen2").fadeOut(1000);}, 5000);
-	setTimeout(function(){$("#screen3").fadeOut(1000);}, 9000);
+	setTimeout(function(){$("#mic").fadeIn(1000);}, 12000);
+	setTimeout(function(){$(".vt-wrapper").fadeIn(1000);}, 12000);
+	setTimeout(function(){$("#crocket").fadeIn(1000);}, 12000);
+	setTimeout(function(){$('html, body').animate({scrollTop: $("#mic").offset().top}, 4000);}, 13000);
+	setTimeout(function(){$("#crocket").fadeOut(1000);}, 15000);
+	setTimeout(function(){$("#screen3").fadeIn(1000);}, 7000);
+	setTimeout(function(){$("#sign_in_button").fadeIn(1000);}, 12000);
+	setTimeout(function(){$("#screen1").fadeOut(1000);}, 5000);
+	setTimeout(function(){$("#screen2").fadeOut(1000);}, 6000);
+	setTimeout(function(){$("#screen3").fadeOut(1000);}, 10000);
 	
 }
 
 /* Animate Loading Functions */
 function startLoading(){
-	$("#bot").fadeIn(1000);
+	if(low_volume) increaseVolume();
+	$("#load").fadeIn(1000);
 	$('html, body').animate({scrollTop: $("#load").offset().top}, 2000);
 }
 
 function stopLoading(){
+	if(!low_volume) reduceVolume();
 	$('html, body').animate({scrollTop: $("#mic").offset().top}, 2000);
 	$("#load").fadeOut(1000);
 }
@@ -234,6 +239,22 @@ function setupLottie(){
 	$(".lottie").fadeOut(1);
 }
 
+/* Volume Reduction Function */
+function reduceVolume(){
+	var interval1 = setInterval(function(){document.getElementById('background_music').volume = volumeStart; volumeStart -= 0.1;}, 100);
+	volumeStart = 1.0;
+	setTimeout(function(){clearInterval(interval1); console.log(volumeStart);}, 800);
+	low_volume = true;
+}
+
+/* Volume Increment Function */
+function increaseVolume(){
+	var interval2 = setInterval(function(){document.getElementById('background_music').volume = volumeEnd; volumeEnd += 0.1;}, 100);
+	volumeEnd = 0.2;
+	setTimeout(function(){clearInterval(interval2);}, 800)
+	low_volume = false;
+}
+
 /* Main Function */
 function main(){
 
@@ -245,17 +266,20 @@ function main(){
 	// Introduce users to Marv (This takes 9 seconds)
 	animateIntroduction();
 	
-	// Brief users about what they can do with Marv (This takes 15 seconds)
+	// Brief users about what they can do with Marv (This takes 16 seconds)
 	setTimeout(function(){animateBrief();}, 9000);
+	
+	// Reduce the background music volume (This is a background process so no time limit)
+	setTimeout(function(){reduceVolume();}, 25000);
 	
 	// Set click listenrs
 	setTimeout(function(){
 		document.getElementById('sign_in_button').onclick = function(){signIn();}
 		document.getElementById('mic').onclick = function(){mic();}
-	}, 14000);
+	}, 15000);
 	
-	setTimeout(function(){startLoading();},27000);
-	setTimeout(function(){stopLoading();}, 30000);
+	setTimeout(function(){startLoading();}, 30000);
+	setTimeout(function(){stopLoading();}, 35000);
 
 }
 
