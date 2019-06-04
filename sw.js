@@ -136,8 +136,6 @@ workbox.googleAnalytics.initialize({});
 
 workbox.precaching.cleanupOutdatedCaches();
 
-workbox.googleAnalytics.initialize({});
-
 workbox.routing.registerRoute(
   new RegExp("https://tgde.hyperr.space/(.*)"),
   new workbox.strategies.CacheFirst({
