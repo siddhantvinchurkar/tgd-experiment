@@ -121,6 +121,14 @@ img{
 	display: none;
 }
 
+#crocket{
+	display: none;
+}
+
+#load{
+	display: none;
+}
+
 svg {
 	display: inline;
 	width: 300px;

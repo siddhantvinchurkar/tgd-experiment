@@ -26,6 +26,14 @@ self.addEventListener('message', (event) => {
  */
 self.__precacheManifest = [
   {
+    "url": "animations/crocket.json",
+    "revision": "cfef8b82dc8cc76565054ad2ce04ff64"
+  },
+  {
+    "url": "animations/load.json",
+    "revision": "da979ba26e8e795542a0a4b5d3d31059"
+  },
+  {
     "url": "CODE_OF_CONDUCT.md",
     "revision": "c705391b8834a912453248e4d16b2c53"
   },
@@ -83,7 +91,7 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "9bfc7d534f416f9943b6de3bb014f696"
+    "revision": "b6e09377bbe1fadf6548c9e6c3cf94f0"
   },
   {
     "url": "key.json",
@@ -94,12 +102,16 @@ self.__precacheManifest = [
     "revision": "36a2bfb767151986e819e88c3fa28b29"
   },
   {
+    "url": "lottie.min.js",
+    "revision": "f11e3439956e454d2e2764fbc5021e54"
+  },
+  {
     "url": "main.css",
-    "revision": "efa75035099c207f1b69213969eafc33"
+    "revision": "fbe3886007038ed04d761d35494b16ff"
   },
   {
     "url": "main.js",
-    "revision": "83170429698ee84a9ced6a446626fb72"
+    "revision": "22c3f7f54cb7d46cc5c549f998967da7"
   },
   {
     "url": "manifest.json",
@@ -114,19 +126,13 @@ self.__precacheManifest = [
     "revision": "2362e220cb7a0c9762039c13bdb71cfa"
   },
   {
-    "url": "sounds/background.mp3",
-    "revision": "bc8f0384d342ae915b2bdfce98465c8a"
-  },
-  {
     "url": "storage.rules",
     "revision": "307549de80ebee91ac86a65766bd6d25"
-  },
-  {
-    "url": "videos/shore-aerial-sequence.mp4",
-    "revision": "839f9fe23a7001786093ee6812fdf27c"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+
+workbox.googleAnalytics.initialize({});
 
 workbox.precaching.cleanupOutdatedCaches();
 

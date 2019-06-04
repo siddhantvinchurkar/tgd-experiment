@@ -117,12 +117,26 @@ function animateBrief(){
 	setTimeout(function(){$("#screen2").fadeIn(1000);}, 1000);
 	setTimeout(function(){$("#mic").fadeIn(1000);}, 10000);
 	setTimeout(function(){$(".vt-wrapper").fadeIn(1000);}, 10000);
+	setTimeout(function(){$("#crocket").fadeIn(1000);}, 10000);
+	setTimeout(function(){$('html, body').animate({scrollTop: $("#mic").offset().top}, 4000);}, 12000);
+	setTimeout(function(){$("#crocket").fadeOut(1000);}, 14000);
 	setTimeout(function(){$("#screen3").fadeIn(1000);}, 6000);
 	setTimeout(function(){$("#sign_in_button").fadeIn(1000);}, 10000);
 	setTimeout(function(){$("#screen1").fadeOut(1000);}, 4000);
 	setTimeout(function(){$("#screen2").fadeOut(1000);}, 5000);
 	setTimeout(function(){$("#screen3").fadeOut(1000);}, 9000);
 	
+}
+
+/* Animate Loading Functions */
+function startLoading(){
+	$("#bot").fadeIn(1000);
+	$('html, body').animate({scrollTop: $("#load").offset().top}, 2000);
+}
+
+function stopLoading(){
+	$('html, body').animate({scrollTop: $("#mic").offset().top}, 2000);
+	$("#load").fadeOut(1000);
 }
 
 /* Sign In Function */
@@ -202,22 +216,46 @@ function mic(){
 	
 }
 
+/* Lottie Initializer Function */
+function initilializeLottie(container, jsonFilePath){
+	lottie.loadAnimation({
+		container: container,
+		renderer: 'svg',
+		loop: true,
+		autoplay: true,
+		path: jsonFilePath
+	});
+}
+
+/* Lottie Setup Function */
+function setupLottie(){
+	initilializeLottie(crocket, 'animations/crocket.json');
+	initilializeLottie(load, 'animations/load.json');
+	$(".lottie").fadeOut(1);
+}
+
 /* Main Function */
 function main(){
 
 	/* Below is a storyline of the actions this app will perform */
+	
+	// Setup Lottie
+	setupLottie();
 
 	// Introduce users to Marv (This takes 9 seconds)
 	animateIntroduction();
 	
-	// Brief users about what they can do with Marv (This takes 11 seconds)
+	// Brief users about what they can do with Marv (This takes 15 seconds)
 	setTimeout(function(){animateBrief();}, 9000);
 	
 	// Set click listenrs
 	setTimeout(function(){
 		document.getElementById('sign_in_button').onclick = function(){signIn();}
 		document.getElementById('mic').onclick = function(){mic();}
-	}, 10000);
+	}, 14000);
+	
+	setTimeout(function(){startLoading();},27000);
+	setTimeout(function(){stopLoading();}, 30000);
 
 }
 
