@@ -94,7 +94,7 @@ self.__precacheManifest = [
     "revision": "b6e09377bbe1fadf6548c9e6c3cf94f0"
   },
   {
-    "url": "key.json",
+    "url": "tgd-experiment.json",
     "revision": "dca03123446f30f9a6f4fd95ecc9ffdc"
   },
   {

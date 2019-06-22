@@ -1,141 +1,158 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en-GB">
 
-<head>
+	<head>
 
-	<!-- Basic meta tags -->
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	
-	<!-- Cache Control meta tags -->
-	<meta http-equiv="cache-control" content="Private" />
-	<meta http-equiv="Expires" content="604800" />
+		<!-- Basic meta tags -->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-	<!-- Let browser know website is optimized for mobile -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- Cache Control meta tags -->
+		<meta http-equiv="cache-control" content="Private" />
+		<meta http-equiv="Expires" content="604800" />
 
-	<!--Set the shortcut icon-->
-	<link rel="shortcut icon" type="image/png" href="images/icons/favicon-32.png">
+		<!-- Let browser know website is optimized for mobile -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<!-- Progressive Web App meta tags -->
-	<link rel="manifest" href="manifest.json">
-	<meta name="theme-color" content="#FFFFFF">
-	<meta name="Description" content="This app will track all of your activity">
+		<!--Set the shortcut icon-->
+		<link rel="shortcut icon" type="image/png" href="images/icons/favicon-32.png">
 
-	<!-- Stylesheets (All loaded asynchronously) -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" media="none" onload="if(media!=='screen,projection')media='screen,projection'">
-	<link rel="stylesheet" href="main.css" media="none" onload="if(media!=='screen,projection')media='screen,projection'">
+		<!-- Progressive Web App meta tags -->
+		<link rel="manifest" href="manifest.json">
+		<meta name="theme-color" content="#FFFFFF">
+		<meta name="Description" content="This app will track all of your activity">
 
-	<title>The Great Data Experiment</title>
+		<!-- Stylesheets (All loaded asynchronously) -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+			media="none" onload="if(media!=='screen,projection')media='screen,projection'">
+		<link rel="stylesheet" href="main.css" media="none"
+			onload="if(media!=='screen,projection')media='screen,projection'">
 
-</head>
+		<title>The Great Data Experiment</title>
 
-<body>
+	</head>
 
-<main>
+	<body>
 
-	<!-- Fixed (top) Navigation Bar -->
-	<div class="navbar-fixed">
-		<nav>
-			<div class="nav-wrapper">
-				<a class="brand-logo center valign-wrapper" style="font-size:3em;"><i class="material-icons" style="font-size:1.5em;">data_usage</i>The Great Data Experiment</a>
+		<main>
+
+			<!-- Fixed (top) Navigation Bar -->
+			<div class="navbar-fixed">
+				<nav>
+					<div class="nav-wrapper">
+						<a class="brand-logo center valign-wrapper" style="font-size:3em;"><i class="material-icons"
+								style="font-size:1.5em;">data_usage</i>The Great Data Experiment</a>
+					</div>
+				</nav>
 			</div>
-		</nav>
-	</div>
 
-	<!-- Background Music -->
-	<audio id="background_music" autoplay loop>
-		<source src="sounds/background_music.mp3" type="audio/mpeg">
-		<p>If you are reading this, it is because your browser does not support an audio element.</p>
-	</audio>
+			<!-- Background Music -->
+			<audio id="background_music" autoplay loop>
+				<source src="sounds/background_music.mp3" type="audio/mpeg">
+				<p>If you are reading this, it is because your browser does not support an audio element.</p>
+			</audio>
 
-    <div class="container">
-    	
-    	<!-- Main Content -->
-    	<div class="row">
-    		
-    		<div class="col s12 m12 l10 xl10 offset-l1 offset-xl1">
-    		
-    			<h1 id="screen1">Hello, human!</h1>
-    			<h1 id="screen2">I'm 
-    				<span>
-    					<svg viewBox="0 0 300 130">
-						<symbol id="s-text">
-							<text text-anchor="middle" x="50%" y="100%">Marv</text>
-						</symbol>
-						<g class = "g-ants">
-							<use xlink:href="#s-text" class="text-copy"></use>
-							<use xlink:href="#s-text" class="text-copy"></use>
-							<use xlink:href="#s-text" class="text-copy"></use>
-							<use xlink:href="#s-text" class="text-copy"></use>
-							<use xlink:href="#s-text" class="text-copy"></use>
-						</g>
-					</svg>
-				</span>.</h1>
-    			<h1 id="screen3">I'm an experimental being capable of general-purpose machine learning.</h1>
-    			<div id="crocket" class="lottie"></div>
-    			<div id="load" class="lottie"></div>
-    			<div class="vt-wrapper">
-				<video autoplay playsinline muted loop preload poster="images/shore-aerial-sequence.jp2">
-					<source src="videos/shore-aerial-sequence.mp4" />
-				</video>
-				<svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 285 80" preserveAspectRatio="xMidYMid slice">
-					<defs>
-						<mask id="mask" x="0" y="0" width="100%" height="100%" >
-							<rect x="0" y="0" width="100%" height="100%" />
-							<text x="80" y="50">Marv</text>
-						</mask>
-					</defs>
-					<rect x="0" y="0" width="100%" height="100%" />
-				</svg>
+			<div class="container">
+
+				<!-- Main Content -->
+				<div class="row">
+
+					<div class="col s12 m12 l10 xl10 offset-l1 offset-xl1">
+
+						<h1 id="screen1">Hello, human!</h1>
+						<h1 id="screen2">I'm
+							<span>
+								<svg viewBox="0 0 300 130">
+									<symbol id="s-text">
+										<text text-anchor="middle" x="50%" y="100%">Marv</text>
+									</symbol>
+									<g class="g-ants">
+										<use xlink:href="#s-text" class="text-copy"></use>
+										<use xlink:href="#s-text" class="text-copy"></use>
+										<use xlink:href="#s-text" class="text-copy"></use>
+										<use xlink:href="#s-text" class="text-copy"></use>
+										<use xlink:href="#s-text" class="text-copy"></use>
+									</g>
+								</svg>
+							</span>.</h1>
+						<h1 id="screen3">I'm an experimental being capable of general-purpose machine learning.</h1>
+						<div id="crocket" class="lottie"></div>
+						<div id="load" class="lottie"></div>
+						<span id="stuff"></span>
+						<div class="vt-wrapper">
+							<video autoplay playsinline muted loop preload poster="images/shore-aerial-sequence.jp2">
+								<source src="videos/shore-aerial-sequence.mp4" />
+							</video>
+							<svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 285 80"
+								preserveAspectRatio="xMidYMid slice">
+								<defs>
+									<mask id="mask" x="0" y="0" width="100%" height="100%">
+										<rect x="0" y="0" width="100%" height="100%" />
+										<text x="80" y="50">Marv</text>
+									</mask>
+								</defs>
+								<rect x="0" y="0" width="100%" height="100%" />
+							</svg>
+						</div>
+						<div id="mic" class="center-align"><a
+								class="btn-floating btn-xlarge waves-effect waves-light indigo z-depth-5"><i
+									class="material-icons">mic</i></a></div>
+
+					</div>
+
+				</div>
+
 			</div>
-    			<div id="mic" class="center-align"><a class="btn-floating btn-xlarge waves-effect waves-light indigo z-depth-5"><i class="material-icons">mic</i></a></div>
-    		
-    		</div>
-    		
-    	</div>
-    	
-    </div>
 
-</main>
+		</main>
 
-<!-- Footer -->
-<footer class="page-footer">
-	<div class="footer-copyright">
-		<div class="container">&copy;&emsp;<span id="footer_year">2019</span>&emsp;<a  style="color:#3F51B5;" href="https://siddhantvinchurkar.github.io/" target="_blank" rel="noreferrer">Siddhant Vinchurkar</a><a class="right" style="color:#3F51B5;" id="username_profile" href="!#" target="_blank" rel="noreferrer"></a><a id="sign_in_button" class="waves-effect waves-light btn right indigo" style="margin-right:25px;"><i class="material-icons right">arrow_forward_ios</i>Sign In</a></div>
-	</div>
-</footer>
+		<!-- Footer -->
+		<footer class="page-footer">
+			<div class="footer-copyright">
+				<div class="container">&copy;&emsp;<span id="footer_year">2019</span>&emsp;<a style="color:#3F51B5;"
+						href="https://siddhantvinchurkar.github.io/" target="_blank" rel="noreferrer">Siddhant
+						Vinchurkar</a><a class="right" style="color:#3F51B5;" id="username_profile" href="!#"
+						target="_blank" rel="noreferrer"></a><a id="sign_in_button"
+						class="waves-effect waves-light btn right indigo" style="margin-right:25px;"><i
+							class="material-icons right">arrow_forward_ios</i>Sign In</a></div>
+			</div>
+		</footer>
 
-<!-- jQuery Scripts -->
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js" defer></script>
-<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous" defer></script>
+		<!-- jQuery Scripts -->
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"
+			defer></script>
+		<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+			integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous" defer></script>
 
-<!-- Materialize Script -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" defer></script>
+		<!-- Materialize Script -->
+		<script type="text/javascript"
+			src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" defer></script>
 
-<!-- Lottie Player Script -->
-<script type="text/javascript" src="lottie.min.js" defer></script>
+		<!-- Lottie Player Script -->
+		<script type="text/javascript" src="lottie.min.js" defer></script>
 
-<!-- Firebase Scripts -->
-<script type="text/javascript" src="https://www.gstatic.com/firebasejs/5.10.0/firebase-app.js" defer></script>
-<script type="text/javascript" src="https://www.gstatic.com/firebasejs/5.10.0/firebase-auth.js" defer></script>
-<script type="text/javascript" src="https://www.gstatic.com/firebasejs/5.10.0/firebase-firestore.js" defer></script>
-<script type="text/javascript" src="https://www.gstatic.com/firebasejs/5.10.0/firebase-storage.js" defer></script>
+		<!-- Firebase Scripts -->
+		<script type="text/javascript" src="https://www.gstatic.com/firebasejs/5.10.0/firebase-app.js" defer></script>
+		<script type="text/javascript" src="https://www.gstatic.com/firebasejs/5.10.0/firebase-auth.js" defer></script>
+		<script type="text/javascript" src="https://www.gstatic.com/firebasejs/5.10.0/firebase-firestore.js"
+			defer></script>
+		<script type="text/javascript" src="https://www.gstatic.com/firebasejs/5.10.0/firebase-storage.js"
+			defer></script>
 
-<!-- Google Analytics Scripts -->
-<script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=UA-140598375-2" async></script>
-<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'UA-140598375-2');
-</script>
+		<!-- Google Analytics Scripts -->
+		<script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=UA-140598375-2" async></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() { dataLayer.push(arguments); }
+			gtag('js', new Date());
+			gtag('config', 'UA-140598375-2');
+		</script>
 
-<!-- App Script -->
-<script type="text/javascript" src="main.js" defer></script>
+		<!-- App Script -->
+		<script type="text/javascript" src="main.js" defer></script>
 
-<noscript>Your browser does not support JavaScript!</nocript>
+		<noscript>Your browser does not support JavaScript!</nocript>
 
-</body>
+	</body>
 
 </html>

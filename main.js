@@ -7,48 +7,53 @@ var db = '';
 var currentUserDocId = '';
 var returningUser = false;
 var volumeStart = 1.0;
-var volumeEnd = 0.2;
+var volumeEnd = 0.1;
 var low_volume = false;
+var fulfillmentText = null;
+var fulfillmentMessage = null;
+var action = null;
+var outputAudio = new Audio();
+var google_auth_token = null;
 var os = [
-    { name: 'Windows Phone', value: 'Windows Phone', version: 'OS' },
-    { name: 'Windows', value: 'Win', version: 'NT' },
-    { name: 'iPhone', value: 'iPhone', version: 'OS' },
-    { name: 'iPad', value: 'iPad', version: 'OS' },
-    { name: 'Kindle', value: 'Silk', version: 'Silk' },
-    { name: 'Android', value: 'Android', version: 'Android' },
-    { name: 'PlayBook', value: 'PlayBook', version: 'OS' },
-    { name: 'BlackBerry', value: 'BlackBerry', version: '/' },
-    { name: 'Macintosh', value: 'Mac', version: 'OS X' },
-    { name: 'Linux', value: 'Linux', version: 'rv' },
-    { name: 'Palm', value: 'Palm', version: 'PalmOS' }
+	{ name: 'Windows Phone', value: 'Windows Phone', version: 'OS' },
+	{ name: 'Windows', value: 'Win', version: 'NT' },
+	{ name: 'iPhone', value: 'iPhone', version: 'OS' },
+	{ name: 'iPad', value: 'iPad', version: 'OS' },
+	{ name: 'Kindle', value: 'Silk', version: 'Silk' },
+	{ name: 'Android', value: 'Android', version: 'Android' },
+	{ name: 'PlayBook', value: 'PlayBook', version: 'OS' },
+	{ name: 'BlackBerry', value: 'BlackBerry', version: '/' },
+	{ name: 'Macintosh', value: 'Mac', version: 'OS X' },
+	{ name: 'Linux', value: 'Linux', version: 'rv' },
+	{ name: 'Palm', value: 'Palm', version: 'PalmOS' }
 ];
 var browser = [
-    { name: 'Chrome', value: 'Chrome', version: 'Chrome' },
-    { name: 'Firefox', value: 'Firefox', version: 'Firefox' },
-    { name: 'Safari', value: 'Safari', version: 'Version' },
-    { name: 'Internet Explorer', value: 'MSIE', version: 'MSIE' },
-    { name: 'Opera', value: 'Opera', version: 'Opera' },
-    { name: 'BlackBerry', value: 'CLDC', version: 'CLDC' },
-    { name: 'Mozilla', value: 'Mozilla', version: 'Mozilla' }
+	{ name: 'Chrome', value: 'Chrome', version: 'Chrome' },
+	{ name: 'Firefox', value: 'Firefox', version: 'Firefox' },
+	{ name: 'Safari', value: 'Safari', version: 'Version' },
+	{ name: 'Internet Explorer', value: 'MSIE', version: 'MSIE' },
+	{ name: 'Opera', value: 'Opera', version: 'Opera' },
+	{ name: 'BlackBerry', value: 'CLDC', version: 'CLDC' },
+	{ name: 'Mozilla', value: 'Mozilla', version: 'Mozilla' }
 ];
 var header = [
-    navigator.platform,
-    navigator.userAgent,
-    navigator.appVersion,
-    navigator.vendor,
-    window.opera
+	navigator.platform,
+	navigator.userAgent,
+	navigator.appVersion,
+	navigator.vendor,
+	window.opera
 ];
 
 /* Identity RegEx Function */
 function matchItem(string, data) {
 	var i = 0,
-	j = 0,
-	html = '',
-	regex,
-	regexv,
-	match,
-	matches,
-	version;
+		j = 0,
+		html = '',
+		regex,
+		regexv,
+		match,
+		matches,
+		version;
 	for (i = 0; i < data.length; i += 1) {
 		regex = new RegExp(data[i].value, 'i');
 		match = regex.test(string);
@@ -56,115 +61,181 @@ function matchItem(string, data) {
 			regexv = new RegExp(data[i].version + '[- /:;]([\d._]+)', 'i');
 			matches = string.match(regexv);
 			version = '';
-				if(matches){
-					if (matches[1]){
-						matches = matches[1];
-					}
+			if (matches) {
+				if (matches[1]) {
+					matches = matches[1];
 				}
+			}
 			if (matches) {
 				matches = matches.split(/[._]+/);
 				for (j = 0; j < matches.length; j += 1) {
-					if(j === 0){
+					if (j === 0) {
 						version += matches[j] + '.';
 					}
-					else{
+					else {
 						version += matches[j];
 					}
 				}
 			}
-			else{
+			else {
 				version = '0';
 			}
 			return {
-			name: data[i].name,
-			version: parseFloat(version)
+				name: data[i].name,
+				version: parseFloat(version)
 			};
 		}
 	}
-	return {name: 'unknown', version: 0};
+	return { name: 'unknown', version: 0 };
 }
 
 /* Retrieve device identity */
-function getDeviceIdentity(){
+function getDeviceIdentity() {
 	agent = header.join(' ');
 	os = this.matchItem(agent, os);
 	browser = this.matchItem(agent, browser);
 }
 
 /* Set Text Function */
-function setText(line1, line2, line3){
+function setText(line1, line2, line3) {
 
 	document.getElementById('screen1').innerHTML = line1;
 	document.getElementById('screen2').innerHTML = line2;
 	document.getElementById('screen3').innerHTML = line3;
-	
+
+}
+
+/* Volume Reduction Function */
+function reduceVolume() {
+	var interval1 = setInterval(function () { document.getElementById('background_music').volume = volumeStart; volumeStart -= 0.1; }, 100);
+	volumeStart = 1.0;
+	setTimeout(function () { clearInterval(interval1); }, 900);
+	low_volume = true;
+}
+
+/* Volume Increment Function */
+function increaseVolume() {
+	var interval2 = setInterval(function () { document.getElementById('background_music').volume = volumeEnd; volumeEnd += 0.1; }, 100);
+	volumeEnd = 0.1;
+	setTimeout(function () { clearInterval(interval2); }, 900)
+	low_volume = false;
+}
+
+/* Function to read a text file */
+function readTextFile(file) {
+	var rawFile = new XMLHttpRequest();
+	rawFile.open("GET", file, false);
+	rawFile.onreadystatechange = function () {
+		if (rawFile.readyState === 4) {
+			if (rawFile.status === 200 || rawFile.status == 0) {
+				google_auth_token = rawFile.responseText;
+			}
+		}
+	}
+	rawFile.send(null);
+}
+
+/* Dialogflow Request */
+function flowRequest(userQuery) {
+	$.ajax({
+		type: "POST",
+		url: "https://dialogflow.googleapis.com/v2/projects/tgd-experiment/agent/sessions/mySession1:detectIntent",
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		headers: {
+			"Authorization": "Bearer " + google_auth_token,
+		},
+		data: JSON.stringify({
+			"queryInput": {
+				"text": {
+					"text": userQuery,
+					"languageCode": "en-GB"
+				}
+			}
+		}),
+		success: function (data) {
+			fulfillmentText = data.queryResult.fulfillmentText;
+			fulfillmentMessage = data.queryResult.fulfillmentMessages[0].text.text[0];
+			action = data.queryResult.action;
+			outputAudio.src = 'data:audio/mp3;base64, ' + data.outputAudio;
+			outputAudio.onloadedmetadata = () => {
+				reduceVolume();
+				setTimeout(function () { outputAudio.play(); }, 900);
+				setTimeout(function () { increaseVolume(); }, (outputAudio.duration + 1) * 1000);
+			}
+		},
+		error: function (e) {
+			console.log(e);
+		}
+	});
 }
 
 /* Animate Introduction Function */
-function animateIntroduction(){
+function animateIntroduction() {
 
+	flowRequest("osmanabad");
 	$("#screen1").fadeIn(1000);
-	setTimeout(function(){$("#screen2").fadeIn(1000);}, 1000);
-	setTimeout(function(){$("#screen3").fadeIn(1000);}, 2000);
-	setTimeout(function(){$("#screen1").fadeOut(1000);}, 6000);
-	setTimeout(function(){$("#screen2").fadeOut(1000);}, 7000);
-	setTimeout(function(){$("#screen3").fadeOut(1000);}, 8000);
-	
+	setTimeout(function () { $("#screen2").fadeIn(1000); }, 1000);
+	setTimeout(function () { $("#screen3").fadeIn(1000); }, 2000);
+	setTimeout(function () { $("#screen1").fadeOut(1000); }, 6000);
+	setTimeout(function () { $("#screen2").fadeOut(1000); }, 7000);
+	setTimeout(function () { $("#screen3").fadeOut(1000); }, 8000);
+
 }
 
 /* Animate Brief Function */
-function animateBrief(){
+function animateBrief() {
 
 	setText('I\'m omnipresent; and right now, most of my knowledge comes from the people I interact with.', 'Use the mic button to talk to me.', 'I\'ll store your preferences if you sign in.');
 	$("#screen1").fadeIn(1000);
-	setTimeout(function(){$("#screen2").fadeIn(1000);}, 1000);
-	setTimeout(function(){$("#mic").fadeIn(1000);}, 12000);
-	setTimeout(function(){$(".vt-wrapper").fadeIn(1000);}, 12000);
-	setTimeout(function(){$("#crocket").fadeIn(1000);}, 12000);
-	setTimeout(function(){$('html, body').animate({scrollTop: $("#mic").offset().top}, 4000);}, 13000);
-	setTimeout(function(){$("#crocket").fadeOut(1000);}, 15000);
-	setTimeout(function(){$("#screen3").fadeIn(1000);}, 7000);
-	setTimeout(function(){$("#sign_in_button").fadeIn(1000);}, 12000);
-	setTimeout(function(){$("#screen1").fadeOut(1000);}, 5000);
-	setTimeout(function(){$("#screen2").fadeOut(1000);}, 6000);
-	setTimeout(function(){$("#screen3").fadeOut(1000);}, 10000);
-	
+	setTimeout(function () { $("#screen2").fadeIn(1000); }, 1000);
+	setTimeout(function () { $("#mic").fadeIn(1000); }, 12000);
+	setTimeout(function () { $(".vt-wrapper").fadeIn(1000); }, 12000);
+	setTimeout(function () { $("#crocket").fadeIn(1000); }, 12000);
+	setTimeout(function () { $('html, body').animate({ scrollTop: $("#mic").offset().top }, 4000); }, 13000);
+	setTimeout(function () { $("#crocket").fadeOut(1000); }, 15000);
+	setTimeout(function () { $("#screen3").fadeIn(1000); }, 7000);
+	setTimeout(function () { $("#sign_in_button").fadeIn(1000); }, 12000);
+	setTimeout(function () { $("#screen1").fadeOut(1000); }, 5000);
+	setTimeout(function () { $("#screen2").fadeOut(1000); }, 6000);
+	setTimeout(function () { $("#screen3").fadeOut(1000); }, 10000);
+
 }
 
 /* Animate Loading Functions */
-function startLoading(){
-	if(low_volume) increaseVolume();
+function startLoading() {
+	if (low_volume) increaseVolume();
 	$("#load").fadeIn(1000);
-	$('html, body').animate({scrollTop: $("#load").offset().top}, 2000);
+	$('html, body').animate({ scrollTop: $("#load").offset().top }, 2000);
 }
 
-function stopLoading(){
-	if(!low_volume) reduceVolume();
-	$('html, body').animate({scrollTop: $("#mic").offset().top}, 2000);
+function stopLoading() {
+	if (!low_volume) reduceVolume();
+	$('html, body').animate({ scrollTop: $("#mic").offset().top }, 2000);
 	$("#load").fadeOut(1000);
 }
 
 /* Sign In Function */
-function signIn(){
+function signIn() {
 
 	var provider = new firebase.auth.GoogleAuthProvider();
-	if(!signedIn){
+	if (!signedIn) {
 		getDeviceIdentity();
-		firebase.auth().signInWithPopup(provider).then(function(result){
+		firebase.auth().signInWithPopup(provider).then(function (result) {
 			user = result.user;
 			var tempCounter = 0;
-			db.collection('users').where('email', '==', user.email).get().then(function(querySnapshot){
+			db.collection('users').where('email', '==', user.email).get().then(function (querySnapshot) {
 				querySnapshot.forEach((doc) => {
 					currentUserDocId = doc.id;
 					tempCounter++;
 				});
-				if(tempCounter < 1){
+				if (tempCounter < 1) {
 					returningUser = false;
 					db.collection('users').add({
-					displayName: user.displayName,
-					email: user.email,
-					photoURL: user.photoURL
-					}).then(function(doc){
+						displayName: user.displayName,
+						email: user.email,
+						photoURL: user.photoURL
+					}).then(function (doc) {
 						currentUserDocId = doc.id;
 					});
 					db.collection('users').doc(currentUserDocId).collection('activity_logs').add({
@@ -175,7 +246,7 @@ function signIn(){
 						browser_version: browser.version
 					});
 				}
-				else{
+				else {
 					returningUser = true;
 					db.collection('users').doc(currentUserDocId).collection('activity_logs').add({
 						timestamp: new Date(),
@@ -188,41 +259,41 @@ function signIn(){
 			});
 			signedIn = true;
 			$("#sign_in_button").fadeOut(1000);
-			setTimeout(function(){
-			
+			setTimeout(function () {
+
 				document.getElementById('sign_in_button').innerHTML = '<i class="material-icons right">exit_to_app</i>Sign Out';
 				document.getElementById('username_profile').innerHTML = user.displayName + '<br />' + user.email;
 				document.getElementById('username_profile').href = user.photoURL;
-				
+
 			}, 1000);
-			setTimeout(function(){$("#sign_in_button").fadeIn(1000);}, 500);
-			setTimeout(function(){$("#username_profile").fadeIn(1000);}, 500);
-			}).catch(function(error){
-				signedIn = false;
-				console.log(error);
-			});
-	}
-	else{
-		firebase.auth().signOut().then(function() {
+			setTimeout(function () { $("#sign_in_button").fadeIn(1000); }, 500);
+			setTimeout(function () { $("#username_profile").fadeIn(1000); }, 500);
+		}).catch(function (error) {
 			signedIn = false;
-			$("#sign_in_button").fadeOut(1000);
-			setTimeout(function(){document.getElementById('sign_in_button').innerHTML = '<i class="material-icons right">arrow_forward_ios</i>Sign In';}, 1000);
-			setTimeout(function(){$("#sign_in_button").fadeIn(1000);}, 500);
-			setTimeout(function(){$("#username_profile").fadeOut(1000);}, 500);
-		}).catch(function(error) {
 			console.log(error);
 		});
 	}
-	
+	else {
+		firebase.auth().signOut().then(function () {
+			signedIn = false;
+			$("#sign_in_button").fadeOut(1000);
+			setTimeout(function () { document.getElementById('sign_in_button').innerHTML = '<i class="material-icons right">arrow_forward_ios</i>Sign In'; }, 1000);
+			setTimeout(function () { $("#sign_in_button").fadeIn(1000); }, 500);
+			setTimeout(function () { $("#username_profile").fadeOut(1000); }, 500);
+		}).catch(function (error) {
+			console.log(error);
+		});
+	}
+
 }
 
 /* Mic Function */
-function mic(){
-	
+function mic() {
+
 }
 
 /* Lottie Initializer Function */
-function initilializeLottie(container, jsonFilePath){
+function initilializeLottie(container, jsonFilePath) {
 	lottie.loadAnimation({
 		container: container,
 		renderer: 'svg',
@@ -233,53 +304,31 @@ function initilializeLottie(container, jsonFilePath){
 }
 
 /* Lottie Setup Function */
-function setupLottie(){
+function setupLottie() {
 	initilializeLottie(crocket, 'animations/crocket.json');
 	initilializeLottie(load, 'animations/load.json');
 	$(".lottie").fadeOut(1);
 }
 
-/* Volume Reduction Function */
-function reduceVolume(){
-	var interval1 = setInterval(function(){document.getElementById('background_music').volume = volumeStart; volumeStart -= 0.1;}, 100);
-	volumeStart = 1.0;
-	setTimeout(function(){clearInterval(interval1); console.log(volumeStart);}, 800);
-	low_volume = true;
-}
-
-/* Volume Increment Function */
-function increaseVolume(){
-	var interval2 = setInterval(function(){document.getElementById('background_music').volume = volumeEnd; volumeEnd += 0.1;}, 100);
-	volumeEnd = 0.2;
-	setTimeout(function(){clearInterval(interval2);}, 800)
-	low_volume = false;
-}
-
 /* Main Function */
-function main(){
+function main() {
 
 	/* Below is a storyline of the actions this app will perform */
-	
+
 	// Setup Lottie
 	setupLottie();
 
 	// Introduce users to Marv (This takes 9 seconds)
 	animateIntroduction();
-	
+
 	// Brief users about what they can do with Marv (This takes 16 seconds)
-	setTimeout(function(){animateBrief();}, 9000);
-	
-	// Reduce the background music volume (This is a background process so no time limit)
-	setTimeout(function(){reduceVolume();}, 25000);
-	
+	setTimeout(function () { animateBrief(); }, 9000);
+
 	// Set click listenrs
-	setTimeout(function(){
-		document.getElementById('sign_in_button').onclick = function(){signIn();}
-		document.getElementById('mic').onclick = function(){mic();}
+	setTimeout(function () {
+		document.getElementById('sign_in_button').onclick = function () { signIn(); }
+		document.getElementById('mic').onclick = function () { mic(); }
 	}, 15000);
-	
-	setTimeout(function(){startLoading();}, 30000);
-	setTimeout(function(){stopLoading();}, 35000);
 
 }
 
@@ -298,22 +347,26 @@ window.onload = function () {
 	});
 
 	/* Set the language */
-	firebase.auth().languageCode = 'en';
-	
+	firebase.auth().languageCode = 'en-GB';
+
 	/* Initialize Firestore */
 	db = firebase.firestore();
 
 	/* Register a Service Worker */
-	if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
-	
+	if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+
+	/* Load Google Authorization Token */
+	readTextFile("google-auth-token.txt");
+
 	/* Configure AJAX requests */
-	jQuery.ajaxPrefilter(function(options){
-		if(options.crossDomain && jQuery.support.cors){
+	jQuery.ajaxPrefilter(function (options) {
+		if (options.crossDomain && jQuery.support.cors) {
 			options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
 		}
 	});
 
-	main();
+	/* Wait 1 second to load everything and then begin! */
+	setTimeout(function () { main(); }, 1000);
 
 }
 
