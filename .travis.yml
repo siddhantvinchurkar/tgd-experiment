@@ -9,6 +9,7 @@ install:
 - cd functions/
 - npm install
 - cd ..
+- firebase functions:delete generateBookingIds --force
 script:
 - echo "Deploy!"
 after_success:
