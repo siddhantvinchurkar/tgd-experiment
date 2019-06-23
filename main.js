@@ -124,7 +124,7 @@ function increaseVolume() {
 /* Function to read a link */
 function readLink(link) {
 	var rawFile = new XMLHttpRequest();
-	rawFile.open("GET", link, false);
+	rawFile.open("GET", link, true);
 	rawFile.onreadystatechange = function () {
 		if (rawFile.readyState === 4) {
 			if (rawFile.status === 200 || rawFile.status == 0) {
@@ -140,6 +140,7 @@ function flowRequest(userQuery) {
 	$.ajax({
 		type: "POST",
 		url: "https://dialogflow.googleapis.com/v2/projects/tgd-experiment/agent/sessions/mySession1:detectIntent",
+		async: true,
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
 		headers: {
