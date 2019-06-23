@@ -3,8 +3,8 @@
 /* Global Variables */
 var user = {};
 var signedIn = false;
-var db = '';
-var currentUserDocId = '';
+var db = null;
+var currentUserDocId = null;
 var returningUser = false;
 var volumeStart = 1.0;
 var volumeEnd = 0.1;
@@ -14,6 +14,10 @@ var fulfillmentMessage = null;
 var action = null;
 var outputAudio = new Audio();
 var google_auth_token = null;
+var speechRecognitionAvailable = false;
+window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+var speechRecognition = null;
+var is_user_talking = false;
 var os = [
 	{ name: 'Windows Phone', value: 'Windows Phone', version: 'OS' },
 	{ name: 'Windows', value: 'Win', version: 'NT' },
@@ -290,7 +294,14 @@ function signIn() {
 
 /* Mic Function */
 function mic() {
-
+	if (!is_user_talking) {
+		speechRecognition.start();
+		is_user_talking = true;
+	}
+	else {
+		speechRecognition.stop();
+		is_user_talking = false;
+	}
 }
 
 /* Lottie Initializer Function */
@@ -331,6 +342,17 @@ function main() {
 		document.getElementById('mic').onclick = function () { mic(); }
 	}, 15000);
 
+	// Handle Speech Recognition
+	speechRecognition.onresult = function (data) {
+		flowRequest(data.results[0][0].transcript);
+	}
+	speechRecognition.onerror = function (data) {
+		console.log("Error occured during speech synthesis!\n\n" + data);
+	}
+	speechRecognition.onnomatch = function (data) {
+		console.log("No match found during speech synthesis!\n\n" + data);
+	}
+
 }
 
 /* Main thread */
@@ -366,8 +388,11 @@ window.onload = function () {
 		}
 	});
 
+	/* Check if speech recognition is supported */
+	if ('SpeechRecognition' in window) speechRecognitionAvailable = true; else speechRecognitionAvailable = false;
+
 	/* Wait 1 second to load everything and then begin! */
-	setTimeout(function () { main(); }, 1000);
+	setTimeout(function () { if (speechRecognitionAvailable) { speechRecognition = new window.SpeechRecognition(); main(); } else { alert("Your machine does not support speech recognition!"); } }, 1000);
 
 }
 
