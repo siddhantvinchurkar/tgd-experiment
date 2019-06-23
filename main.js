@@ -121,10 +121,10 @@ function increaseVolume() {
 	low_volume = false;
 }
 
-/* Function to read a text file */
-function readTextFile(file) {
+/* Function to read a link */
+function readLink(link) {
 	var rawFile = new XMLHttpRequest();
-	rawFile.open("GET", file, false);
+	rawFile.open("GET", link, false);
 	rawFile.onreadystatechange = function () {
 		if (rawFile.readyState === 4) {
 			if (rawFile.status === 200 || rawFile.status == 0) {
@@ -356,7 +356,7 @@ window.onload = function () {
 	if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 
 	/* Load Google Authorization Token */
-	readTextFile("google-auth-token.txt");
+	readLink("https://gauth.hyperr.space/");
 
 	/* Configure AJAX requests */
 	jQuery.ajaxPrefilter(function (options) {
