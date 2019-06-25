@@ -69,3 +69,6 @@ tgd-experiment.json
 
 # Google Authorization Token
 google-auth-token.txt
+
+# Old background music file
+sounds/background_music.mp3
