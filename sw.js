@@ -11,13 +11,81 @@
  * See https://goo.gl/2aRDsh
  */
 
-importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.1.0/workbox-sw.js");
+importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
 });
+
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js');
+
+if (workbox) {
+  console.log(`Yay! Workbox is loaded 🎉`);
+} else {
+  console.log(`Boo! Workbox didn't load 😬`);
+}
+
+workbox.routing.registerRoute(
+  /\/images\//,
+  new workbox.strategies.CacheFirst({
+    cacheName: 'image-cache',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 24 * 60 * 60 * 30,
+      }),
+    ],
+  })
+);
+
+workbox.routing.registerRoute(
+  /\/animations\//,
+  new workbox.strategies.CacheFirst({
+    cacheName: 'animation-cache',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 24 * 60 * 60 * 30,
+      }),
+    ],
+  })
+);
+
+workbox.routing.registerRoute(
+  /\/sounds\//,
+  new workbox.strategies.CacheFirst({
+    cacheName: 'audio-cache',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 24 * 60 * 60 * 30,
+      }),
+    ],
+  })
+);
+
+workbox.routing.registerRoute(
+  /\/videos\//,
+  new workbox.strategies.CacheFirst({
+    cacheName: 'video-cache',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 24 * 60 * 60 * 30,
+      }),
+    ],
+  })
+);
+
+workbox.routing.registerRoute(
+  /\/fonts\//,
+  new workbox.strategies.CacheFirst({
+    cacheName: 'font-cache',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 24 * 60 * 60 * 30,
+      }),
+    ],
+  })
+);
 
 /**
  * The workboxSW.precacheAndRoute() method efficiently caches and responds to
@@ -63,15 +131,19 @@ self.__precacheManifest = [
   },
   {
     "url": "functions/index.js",
-    "revision": "10be3e3e7e0ea62663880569677cc5c1"
+    "revision": "b43ab80f931551ff02cc8cf236d0e96f"
   },
   {
     "url": "functions/package-lock.json",
-    "revision": "1a8f1186d425190f9d65d15af0321abb"
+    "revision": "7e1b967580e80109e3455bc70947c0bc"
   },
   {
     "url": "functions/package.json",
-    "revision": "adb6e63d8fe496f8625ee2aaba85f427"
+    "revision": "8b1c2f67aa2e0efb556dea6fd47a711b"
+  },
+  {
+    "url": "google-auth-token.txt.enc",
+    "revision": "683bab3b9d43ba429d473ac02e86d36c"
   },
   {
     "url": "images/icons/favicon-32.png",
@@ -91,11 +163,7 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "b6e09377bbe1fadf6548c9e6c3cf94f0"
-  },
-  {
-    "url": "tgd-experiment.json",
-    "revision": "dca03123446f30f9a6f4fd95ecc9ffdc"
+    "revision": "1cfeb157c5d1803dba63b8a14dd774dc"
   },
   {
     "url": "LICENSE.md",
@@ -111,7 +179,7 @@ self.__precacheManifest = [
   },
   {
     "url": "main.js",
-    "revision": "22c3f7f54cb7d46cc5c549f998967da7"
+    "revision": "2218ef353b7c8c9674c59758be97f85f"
   },
   {
     "url": "manifest.json",
@@ -126,28 +194,20 @@ self.__precacheManifest = [
     "revision": "2362e220cb7a0c9762039c13bdb71cfa"
   },
   {
+    "url": "sounds/background_music.mp3",
+    "revision": "0a4a296bcfbba7d60ef39a012f66e0c8"
+  },
+  {
     "url": "storage.rules",
     "revision": "307549de80ebee91ac86a65766bd6d25"
+  },
+  {
+    "url": "tgd-experiment.json",
+    "revision": "86d7a33108b5c80b7f0b5187cdcb797a"
+  },
+  {
+    "url": "videos/shore-aerial-sequence.mp4",
+    "revision": "839f9fe23a7001786093ee6812fdf27c"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
-
-workbox.googleAnalytics.initialize({});
-
-workbox.precaching.cleanupOutdatedCaches();
-
-workbox.routing.registerRoute(
-  new RegExp("https://tgde.hyperr.space/(.*)"),
-  new workbox.strategies.CacheFirst({
-    cacheName: 'global-cache',
-    plugins: [
-      new workbox.expiration.Plugin({
-        maxEntries: 256,
-        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
-      }),
-        new workbox.cacheableResponse.Plugin({
-          statuses: [0, 200],
-        })
-    ]
-  })
-);

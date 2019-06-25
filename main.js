@@ -358,6 +358,12 @@ function main() {
 /* Main thread */
 window.onload = function () {
 
+	/* Register a service worker */
+	if ('serviceWorker' in navigator) {
+		navigator.serviceWorker
+			.register('sw.js');
+	}
+
 	/* Initialize Firebase */
 	firebase.initializeApp({
 		apiKey: "AIzaSyB2R3EKvah0v7TXIJhmE-0Fyp0z0cqwUws",

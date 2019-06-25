@@ -139,19 +139,23 @@
 		<script type="text/javascript" src="https://www.gstatic.com/firebasejs/5.10.0/firebase-storage.js"
 			defer></script>
 
-		<!-- Google Analytics Scripts -->
-		<script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=UA-140598375-2" async></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag() { dataLayer.push(arguments); }
-			gtag('js', new Date());
-			gtag('config', 'UA-140598375-2');
-		</script>
+		<script type="text/module"
+			src="https://storage.googleapis.com/workbox-cdn/releases/4.0.0/workbox-window.prod.mjs" defer></script>
 
-		<!-- App Script -->
-		<script type="text/javascript" src="main.js" defer></script>
+		< !--Google Analytics Scripts-->
+			<script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=UA-140598375-2"
+				async></script>
+			<script>
+				window.dataLayer = window.dataLayer || [];
+				function gtag() { dataLayer.push(arguments); }
+				gtag('js', new Date());
+				gtag('config', 'UA-140598375-2');
+			</script>
 
-		<noscript>Your browser does not support JavaScript!</nocript>
+			<!-- App Script -->
+			<script type="text/javascript" src="main.js" defer></script>
+
+			<noscript>Your browser does not support JavaScript!</nocript>
 
 	</body>
 
