@@ -242,3 +242,6 @@ svg {
 .vt-wrapper:after {
 	right: -5px;
 }
+#response_text{
+	font-size: 2em;
+}

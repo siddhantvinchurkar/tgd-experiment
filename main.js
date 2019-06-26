@@ -20,7 +20,10 @@ var speechRecognition = null;
 var is_user_talking = false;
 var modalElements = null;
 var modalInstances = null;
-var responseTextModal = null;
+var responseTextModalInstance = null;
+var introduce = true;
+var sentimentAnalysisMagnitude = null;
+var sentimentAnalysisScore = null;
 var os = [
 	{ name: 'Windows Phone', value: 'Windows Phone', version: 'OS' },
 	{ name: 'Windows', value: 'Win', version: 'NT' },
@@ -154,6 +157,11 @@ function flowRequest(userQuery) {
 			"Authorization": "Bearer " + google_auth_token,
 		},
 		data: JSON.stringify({
+			"queryParams": {
+				"sentimentAnalysisRequestConfig": {
+					"analyzeQueryTextSentiment": true
+				}
+			},
 			"queryInput": {
 				"text": {
 					"text": userQuery,
@@ -162,6 +170,10 @@ function flowRequest(userQuery) {
 			}
 		}),
 		success: function (data) {
+			if (data.queryResult.sentimentAnalysisResult != null) {
+				sentimentAnalysisScore = data.queryResult.sentimentAnalysisResult.queryTextSentiment.score;
+				sentimentAnalysisMagnitude = data.queryResult.sentimentAnalysisResult.queryTextSentiment.magnitude;
+			}
 			fulfillmentText = data.queryResult.fulfillmentText;
 			fulfillmentMessage = data.queryResult.fulfillmentMessages[0].text.text[0];
 			action = data.queryResult.action;
@@ -170,10 +182,45 @@ function flowRequest(userQuery) {
 				reduceVolume();
 				setTimeout(function () { outputAudio.play(); }, 900);
 				setTimeout(function () { increaseVolume(); }, (outputAudio.duration + 1) * 1000);
+				document.getElementById('response_text').innerHTML = fulfillmentText;
+				if (!introduce) setTimeout(function () { responseTextModalInstance.open(); }, 900);
+				setTimeout(function () { if (responseTextModalInstance.isOpen) responseTextModalInstance.close(); }, (outputAudio.duration + 2) * 1000);
+				if (sentimentAnalysisMagnitude != null && sentimentAnalysisScore != null) {
+					var sentimentBoolean = true;
+					if (sentimentAnalysisScore < 0) sentimentBoolean = false;
+					else sentimentBoolean = true;
+					if (signedIn && !introduce) {
+						db.collection('users').doc(currentUserDocId).collection('utterances').add(
+							{
+								response_action: action,
+								response_audio_mp3_base64: 'data:audio/mp3;base64, ' + data.outputAudio,
+								response_text: fulfillmentText,
+								sentiment_boolean: sentimentBoolean,
+								sentiment_magnitude: sentimentAnalysisMagnitude,
+								timestamp: new Date(),
+								utterance_text: userQuery,
+								index: 0
+							}
+						);
+					}
+				}
+				else {
+					if (signedIn && !introduce) {
+						db.collection('users').doc(currentUserDocId).collection('utterances').add(
+							{
+								response_action: action,
+								response_audio_mp3_base64: 'data:audio/mp3;base64, ' + data.outputAudio,
+								response_text: fulfillmentText,
+								sentiment_boolean: true,
+								sentiment_magnitude: 0,
+								timestamp: new Date(),
+								utterance_text: userQuery,
+								index: 0
+							}
+						);
+					}
+				}
 			}
-			document.getElementById('response_text').innerHTML = fulfillmentText;
-			responseTextModal.open();
-			setTimeout(function () { responseTextModal.close(); }, (outputAudio.duration + 1) * 1000);
 		},
 		error: function (e) {
 			console.log(e);
@@ -245,7 +292,8 @@ function signIn() {
 					db.collection('users').add({
 						displayName: user.displayName,
 						email: user.email,
-						photoURL: user.photoURL
+						photoURL: user.photoURL,
+						returningUser: returningUser
 					}).then(function (doc) {
 						currentUserDocId = doc.id;
 					});
@@ -265,6 +313,8 @@ function signIn() {
 						os_version: os.version,
 						browser_name: browser.name,
 						browser_version: browser.version
+					}).then(function () {
+						db.collection('users').doc(currentUserDocId).update({ returningUser: true });
 					});
 				}
 			});
@@ -275,6 +325,7 @@ function signIn() {
 				document.getElementById('sign_in_button').innerHTML = '<i class="material-icons right">exit_to_app</i>Sign Out';
 				document.getElementById('username_profile').innerHTML = user.displayName + '<br />' + user.email;
 				document.getElementById('username_profile').href = user.photoURL;
+				main();
 
 			}, 1000);
 			setTimeout(function () { $("#sign_in_button").fadeIn(1000); }, 500);
@@ -282,6 +333,7 @@ function signIn() {
 		}).catch(function (error) {
 			signedIn = false;
 			console.log(error);
+			main();
 		});
 	}
 	else {
@@ -308,6 +360,7 @@ function mic() {
 		$("#listening-text").fadeIn(1000);
 	}
 	else {
+		recorder.stop();
 		speechRecognition.stop();
 		is_user_talking = false;
 		document.getElementById('miclink').classList.remove('pulse');
@@ -338,8 +391,8 @@ function setupLottie() {
 /* UI Initializer Function */
 function initializeUIComponents() {
 	modalElements = document.querySelectorAll('.modal');
-	modalInstances = M.Modal.init(modalElements);
-	responseTextModal = modalInstances[0];
+	modalInstances = M.Modal.init(modalElements, { dismissible: false });
+	responseTextModalInstance = modalInstances[0];
 }
 
 /* Main Function */
@@ -357,7 +410,7 @@ function main() {
 	animateIntroduction();
 
 	// Brief users about what they can do with Marv (This takes 16 seconds)
-	setTimeout(function () { animateBrief(); }, 9000);
+	if (introduce) setTimeout(function () { introduce = false; animateBrief(); }, 9000);
 
 	// Set click listenrs
 	setTimeout(function () {
@@ -368,6 +421,11 @@ function main() {
 	// Handle Speech Recognition
 	speechRecognition.onresult = function (data) {
 		flowRequest(data.results[0][0].transcript);
+		speechRecognition.stop();
+		is_user_talking = false;
+		document.getElementById('miclink').classList.remove('pulse');
+		$("#listening").fadeOut(1000);
+		$("#listening-text").fadeOut(1000);
 	}
 	speechRecognition.onerror = function (data) {
 		console.log("Error occured during speech synthesis!\n\n" + data);
@@ -375,7 +433,13 @@ function main() {
 	speechRecognition.onnomatch = function (data) {
 		console.log("No match found during speech synthesis!\n\n" + data);
 	}
-
+	speechRecognition.onsoundend = function () {
+		speechRecognition.stop();
+		is_user_talking = false;
+		document.getElementById('miclink').classList.remove('pulse');
+		$("#listening").fadeOut(1000);
+		$("#listening-text").fadeOut(1000);
+	}
 }
 
 /* Main thread */
@@ -424,7 +488,6 @@ window.onload = function () {
 	if ('SpeechRecognition' in window) speechRecognitionAvailable = true; else speechRecognitionAvailable = false;
 
 	/* Wait 1 second to load everything and then begin! */
-	setTimeout(function () { if (speechRecognitionAvailable) { speechRecognition = new window.SpeechRecognition(); main(); } else { alert("Your machine does not support speech recognition!"); } }, 1000);
+	setTimeout(function () { if (speechRecognitionAvailable) { speechRecognition = new window.SpeechRecognition(); signIn(); } else { alert("Your machine does not support speech recognition!"); } }, 1000);
 
 }
-

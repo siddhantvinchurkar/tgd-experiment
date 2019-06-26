@@ -188,7 +188,7 @@ self.__precacheManifest = [
     "revision": "2362e220cb7a0c9762039c13bdb71cfa"
   },
   {
-    "url": "sounds/background_music.mp3",
+    "url": "sounds/bkm.mp3",
     "revision": "0a4a296bcfbba7d60ef39a012f66e0c8"
   },
   {

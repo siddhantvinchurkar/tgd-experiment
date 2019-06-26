@@ -9,31 +9,47 @@ admin.initializeApp(functions.config().firebase);
 //  response.send("Hello from Firebase!");
 // });
 
-// This function will update the header video link
+// This function will generate booking IDs
 exports.generateBookingIds = functions.firestore.document('quickbook-bookings/{docID}').onWrite((change, context) => {
 	const document = change.after.exists ? change.after.data() : null;
 	var booking_ids = [];
 	var db = admin.firestore();
 	var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 	var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-	db.collection("quickbook-bookings").where("email", "==", document.email).where("phone", "==", document.phone).orderBy("booking_timestamp", "desc").get().then((querySnapshot)=>{
+	db.collection("quickbook-bookings").where("email", "==", document.email).where("phone", "==", document.phone).orderBy("booking_timestamp", "desc").get().then((querySnapshot) => {
 		var ix = 1;
-		querySnapshot.forEach((doc1)=>{
+		querySnapshot.forEach((doc1) => {
 			db.collection("quickbook-bookings").doc(doc1.id).update({
 				booking_reference: 'QBK-' + ix + '_' + month[doc1.data().booking_timestamp.toDate().getMonth()] + ' ' + doc1.data().booking_timestamp.toDate().getDate() + ', ' + doc1.data().booking_timestamp.toDate().getFullYear()
-			}).catch((e)=>{console.log(e);});
+			}).catch((e) => { console.log(e); });
 			ix++;
 		});
-		db.collection("quickbook-bookings").orderBy("booking_timestamp", "desc").get().then((querySnapshot2)=>{
+		db.collection("quickbook-bookings").orderBy("booking_timestamp", "desc").get().then((querySnapshot2) => {
 			var ix2 = 1;
-			querySnapshot2.forEach((doc3)=>{
+			querySnapshot2.forEach((doc3) => {
 				db.collection("quickbook-bookings").doc(doc3.id).update({
 					sequence_number: ix2
-				}).catch((e)=>{console.log(e);});
+				}).catch((e) => { console.log(e); });
 				ix2++;
 			});
 			return true;
-		}).catch((e)=>{console.log(e);});
+		}).catch((e) => { console.log(e); });
 		return true;
-	}).catch((e)=>{console.log(e);});
+	}).catch((e) => { console.log(e); });
+});
+
+// This function will generate indexes for uttterances
+exports.generateUtteranceIndexes = functions.firestore.document('users/{docID1}/utterances/{docID2}').onWrite((change, context) => {
+	const document = change.after.exists ? change.after.data() : null;
+	var db = admin.firestore();
+	db.collection("users").doc(context.params.docID1).collection("utterances").orderBy("timestamp", "asc").get().then((querySnapshot) => {
+		var ix = 1;
+		querySnapshot.forEach((doc1) => {
+			db.collection("users").doc(context.params.docID1).collection("utterances").doc(doc1.id).update({
+				index: ix
+			}).catch((e) => { console.log(e); });
+			ix++;
+		});
+		return true;
+	}).catch((e) => { console.log(e); });
 });
