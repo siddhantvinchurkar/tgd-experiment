@@ -129,6 +129,21 @@ img{
 	display: none;
 }
 
+#listening{
+	display: none;
+	margin-left: 200px;
+	margin-top: -500px;
+	height: 600px;
+	width: 600px;
+}
+
+#listening-text{
+	display: none;
+	font-size: 3em;
+	margin-top: -50px;
+	color: #B24F30;
+}
+
 svg {
 	display: inline;
 	width: 300px;

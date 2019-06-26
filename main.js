@@ -18,6 +18,9 @@ var speechRecognitionAvailable = false;
 window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
 var speechRecognition = null;
 var is_user_talking = false;
+var modalElements = null;
+var modalInstances = null;
+var responseTextModal = null;
 var os = [
 	{ name: 'Windows Phone', value: 'Windows Phone', version: 'OS' },
 	{ name: 'Windows', value: 'Win', version: 'NT' },
@@ -168,6 +171,9 @@ function flowRequest(userQuery) {
 				setTimeout(function () { outputAudio.play(); }, 900);
 				setTimeout(function () { increaseVolume(); }, (outputAudio.duration + 1) * 1000);
 			}
+			document.getElementById('response_text').innerHTML = fulfillmentText;
+			responseTextModal.open();
+			setTimeout(function () { responseTextModal.close(); }, (outputAudio.duration + 1) * 1000);
 		},
 		error: function (e) {
 			console.log(e);
@@ -297,10 +303,16 @@ function mic() {
 	if (!is_user_talking) {
 		speechRecognition.start();
 		is_user_talking = true;
+		document.getElementById('miclink').classList.add('pulse');
+		$("#listening").fadeIn(1000);
+		$("#listening-text").fadeIn(1000);
 	}
 	else {
 		speechRecognition.stop();
 		is_user_talking = false;
+		document.getElementById('miclink').classList.remove('pulse');
+		$("#listening").fadeOut(1000);
+		$("#listening-text").fadeOut(1000);
 	}
 }
 
@@ -319,13 +331,24 @@ function initilializeLottie(container, jsonFilePath) {
 function setupLottie() {
 	initilializeLottie(crocket, 'animations/crocket.json');
 	initilializeLottie(load, 'animations/load.json');
+	initilializeLottie(listening, 'animations/listening.json');
 	$(".lottie").fadeOut(1);
+}
+
+/* UI Initializer Function */
+function initializeUIComponents() {
+	modalElements = document.querySelectorAll('.modal');
+	modalInstances = M.Modal.init(modalElements);
+	responseTextModal = modalInstances[0];
 }
 
 /* Main Function */
 function main() {
 
 	/* Below is a storyline of the actions this app will perform */
+
+	/* Initialize UI components */
+	initializeUIComponents();
 
 	// Setup Lottie
 	setupLottie();
@@ -384,8 +407,11 @@ window.onload = function () {
 	/* Register a Service Worker */
 	if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 
-	/* Load Google Authorization Token */
+	/* Load Google Authorization Token for the first time */
 	readLink("https://gauth.hyperr.space/");
+
+	/* Update Google Authorization Token every minute thereafter */
+	setInterval(function () { readLink("https://gauth.hyperr.space/"); }, 60000);
 
 	/* Configure AJAX requests */
 	jQuery.ajaxPrefilter(function (options) {
